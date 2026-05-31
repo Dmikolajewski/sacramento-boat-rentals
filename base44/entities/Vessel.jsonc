@@ -1,0 +1,81 @@
+{
+  "name": "Vessel",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Luxury Pontoon",
+        "Sport Cruiser",
+        "Party Barge",
+        "Fishing Charter",
+        "Sunset Yacht"
+      ]
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "capacity": {
+      "type": "number"
+    },
+    "length_ft": {
+      "type": "number"
+    },
+    "base_price_per_hour": {
+      "type": "number"
+    },
+    "half_day_price": {
+      "type": "number"
+    },
+    "full_day_price": {
+      "type": "number"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "gallery_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "amenities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "available": {
+      "type": "boolean",
+      "default": true
+    },
+    "rating": {
+      "type": "number"
+    },
+    "review_count": {
+      "type": "number"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "capacity",
+    "base_price_per_hour"
+  ]
+}

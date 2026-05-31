@@ -1,0 +1,78 @@
+{
+  "name": "Booking",
+  "type": "object",
+  "properties": {
+    "vessel_id": {
+      "type": "string"
+    },
+    "vessel_name": {
+      "type": "string"
+    },
+    "guest_name": {
+      "type": "string"
+    },
+    "guest_email": {
+      "type": "string"
+    },
+    "guest_phone": {
+      "type": "string"
+    },
+    "booking_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "start_time": {
+      "type": "string"
+    },
+    "duration_hours": {
+      "type": "number"
+    },
+    "guest_count": {
+      "type": "number"
+    },
+    "add_captain": {
+      "type": "boolean",
+      "default": false
+    },
+    "add_catering": {
+      "type": "boolean",
+      "default": false
+    },
+    "add_fuel": {
+      "type": "boolean",
+      "default": false
+    },
+    "special_requests": {
+      "type": "string"
+    },
+    "base_price": {
+      "type": "number"
+    },
+    "addons_total": {
+      "type": "number"
+    },
+    "total_price": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed"
+      ],
+      "default": "pending"
+    },
+    "confirmation_code": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "vessel_id",
+    "guest_name",
+    "guest_email",
+    "booking_date",
+    "duration_hours"
+  ]
+}

@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 20% 97%;
+    --foreground: 196 64% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 196 64% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 196 64% 9%;
+    --primary: 196 64% 9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 160 10% 95%;
+    --secondary-foreground: 196 64% 9%;
+    --muted: 160 10% 95%;
+    --muted-foreground: 196 30% 40%;
+    --accent: 43 62% 52%;
+    --accent-foreground: 196 64% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 196 20% 88%;
+    --input: 196 20% 88%;
+    --ring: 43 62% 52%;
+    --radius: 0.25rem;
+
+    /* Brand tokens */
+    --deep-river: #0A2229;
+    --golden-hour: #D4AF37;
+    --mist: #F4F7F6;
+    --signal-white: #FFFFFF;
+    --river-mid: #0d3040;
+    --river-light: #1a4a5c;
+  }
+
+  .dark {
+    --background: 196 64% 5%;
+    --foreground: 160 10% 95%;
+    --card: 196 64% 8%;
+    --card-foreground: 160 10% 95%;
+    --popover: 196 64% 8%;
+    --popover-foreground: 160 10% 95%;
+    --primary: 43 62% 52%;
+    --primary-foreground: 196 64% 9%;
+    --secondary: 196 40% 15%;
+    --secondary-foreground: 160 10% 95%;
+    --muted: 196 40% 15%;
+    --muted-foreground: 196 20% 60%;
+    --accent: 43 62% 52%;
+    --accent-foreground: 196 64% 9%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 196 40% 18%;
+    --input: 196 40% 18%;
+    --ring: 43 62% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+/* Focus ring - Golden Hour */
+@layer base {
+  *:focus-visible {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+  }
+}
+
+/* Hydraulic / Float animations */
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes rising-tide {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
+}
+@keyframes gold-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(212,175,55,0); }
+}
+@keyframes countdown-tick {
+  0%   { opacity: 1; }
+  49%  { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.animate-float-up {
+  animation: float-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-rising-tide {
+  animation: rising-tide 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-gold-pulse {
+  animation: gold-pulse 2.5s ease-in-out infinite;
+}
+.animate-countdown {
+  animation: countdown-tick 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-up,
+  .animate-rising-tide {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+  .animate-gold-pulse {
+    animation: none;
+  }
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(10, 34, 41, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+/* Horizon rule */
+.horizon-rule {
+  border: none;
+  border-top: 0.5px solid rgba(212, 175, 55, 0.35);
+  width: 100%;
+}
+
+/* Blueprint overlay */
+.blueprint-overlay {
+  background: rgba(10, 34, 41, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+/* Operational caps */
+.op-caps {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Golden underline */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #D4AF37;
+}
+
+/* Monospace countdown */
+.mono-time {
+  font-family: 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A2229; }
+::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
