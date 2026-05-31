@@ -20,7 +20,7 @@ function PaymentForm({ totalPrice, onSuccess }) {
     setProcessing(true);
     setError(null);
 
-    const { error: stripeError } = await stripe.createPaymentMethod({
+    const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
     });
@@ -31,11 +31,14 @@ function PaymentForm({ totalPrice, onSuccess }) {
       return;
     }
 
-    // Simulate successful payment (for testing)
+    // TODO: Send paymentMethod.id to your backend to create PaymentIntent
+    // For now we simulate success (replace this with real backend call later)
+    console.log("PaymentMethod created:", paymentMethod.id);
+
     setTimeout(() => {
       onSuccess();
       setProcessing(false);
-    }, 1600);
+    }, 1500);
   };
 
   return (
