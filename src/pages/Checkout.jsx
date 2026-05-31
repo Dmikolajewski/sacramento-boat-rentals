@@ -4,8 +4,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Check, Anchor, ChevronLeft } from 'lucide-react';
 
-// TEST MODE KEY (change to live key later)
-const stripePromise = loadStripe('pk_test_51YourTestKeyHere'); // ← Replace with your actual test key from Stripe Dashboard
+// === YOUR STRIPE KEY (Live key you provided) ===
+const stripePromise = loadStripe('pk_live_LXlUuTi3t8OzNHSwqPMwFRY8001ezahSZw');
 
 function PaymentForm({ totalPrice, onSuccess }) {
   const stripe = useStripe();
@@ -31,11 +31,11 @@ function PaymentForm({ totalPrice, onSuccess }) {
       return;
     }
 
-    // Simulate successful payment for testing
+    // Simulate successful payment for now
     setTimeout(() => {
       onSuccess();
       setProcessing(false);
-    }, 1500);
+    }, 1600);
   };
 
   return (
@@ -45,9 +45,9 @@ function PaymentForm({ totalPrice, onSuccess }) {
           options={{
             style: {
               base: {
-                color: '#fff',
+                color: '#ffffff',
                 fontSize: '16px',
-                '::placeholder': { color: '#aaa' },
+                '::placeholder': { color: '#aaaaaa' },
               },
             },
           }}
@@ -59,9 +59,9 @@ function PaymentForm({ totalPrice, onSuccess }) {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 disabled:opacity-50"
+        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 transition disabled:opacity-50"
       >
-        {processing ? "Processing Payment..." : `Pay $${totalPrice} Securely`}
+        {processing ? 'Processing Payment...' : `Pay $${totalPrice} Securely`}
       </button>
     </form>
   );
@@ -92,7 +92,14 @@ export default function Checkout() {
     formRef.current[field] = value;
   };
 
-  const handleStep1 = () => setStep(2);
+  const handleStep1 = () => {
+    const formData = formRef.current;
+    if (!formData.guest_name.trim() || !formData.guest_email.trim() || !formData.guest_phone.trim()) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    setStep(2);
+  };
 
   const handlePaymentSuccess = () => {
     const code = 'RK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -102,6 +109,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-[#0A2229]">
+      {/* Header */}
       <div className="border-b border-white/10 px-8 py-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <Anchor className="w-5 h-5 text-golden-hour" />
@@ -110,6 +118,7 @@ export default function Checkout() {
       </div>
 
       <div className="max-w-5xl mx-auto px-8 py-12">
+        {/* Step 1 - Guest Info */}
         {step === 1 && (
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-7">
@@ -121,19 +130,19 @@ export default function Checkout() {
               <div className="space-y-8">
                 <div>
                   <label className="text-golden-hour/70 text-xs block mb-2">Full Name *</label>
-                  <input type="text" onChange={(e) => updateField('guest_name', e.target.value)} placeholder="John Smith" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour" />
+                  <input type="text" onChange={(e) => updateField('guest_name', e.target.value)} placeholder="John Smith" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour focus:outline-none" />
                 </div>
                 <div>
                   <label className="text-golden-hour/70 text-xs block mb-2">Email Address *</label>
-                  <input type="email" onChange={(e) => updateField('guest_email', e.target.value)} placeholder="you@email.com" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour" />
+                  <input type="email" onChange={(e) => updateField('guest_email', e.target.value)} placeholder="you@email.com" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour focus:outline-none" />
                 </div>
                 <div>
                   <label className="text-golden-hour/70 text-xs block mb-2">Phone Number *</label>
-                  <input type="tel" onChange={(e) => updateField('guest_phone', e.target.value)} placeholder="(916) 555-1234" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour" />
+                  <input type="tel" onChange={(e) => updateField('guest_phone', e.target.value)} placeholder="(916) 555-1234" className="w-full px-5 py-4 bg-[#1A3A44] text-white border border-white/20 rounded-2xl focus:border-golden-hour focus:outline-none" />
                 </div>
               </div>
 
-              <button onClick={handleStep1} className="mt-10 w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl">
+              <button onClick={handleStep1} className="mt-10 w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 transition">
                 Continue to Payment
               </button>
             </div>
@@ -152,6 +161,7 @@ export default function Checkout() {
           </div>
         )}
 
+        {/* Step 2 - Payment */}
         {step === 2 && (
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl font-display italic text-white mb-10">Secure Payment</h1>
@@ -161,6 +171,7 @@ export default function Checkout() {
           </div>
         )}
 
+        {/* Step 3 - Success */}
         {step === 3 && (
           <div className="text-center py-20">
             <Check className="w-24 h-24 text-golden-hour mx-auto mb-8" />
