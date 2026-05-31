@@ -4,8 +4,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Check, Anchor, ChevronLeft } from 'lucide-react';
 
-// === CHANGE THIS TO YOUR TEST KEY FOR TESTING ===
-const stripePromise = loadStripe('pk_live_LXlUuTi3t8OzNHSwqPMwFRY8001ezahSZw');
+// === YOUR STRIPE TEST KEY ===
+const stripePromise = loadStripe('pk_test_KhDgXlTWW92ZNTKaSBP1Pj1y00XTuo3vOd');
 
 function PaymentForm({ totalPrice, onSuccess }) {
   const stripe = useStripe();
