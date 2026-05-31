@@ -2,9 +2,10 @@ import { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Check, Anchor, Clock, ChevronLeft } from 'lucide-react';
+import { Check, Anchor, ChevronLeft } from 'lucide-react';
 
-const stripePromise = loadStripe('pk_live_LXlUuTi3t8OzNHSwqPMwFRY8001ezahSZw');
+// TEST MODE KEY (change to live key later)
+const stripePromise = loadStripe('pk_test_51YourTestKeyHere'); // ← Replace with your actual test key from Stripe Dashboard
 
 function PaymentForm({ totalPrice, onSuccess }) {
   const stripe = useStripe();
@@ -19,7 +20,7 @@ function PaymentForm({ totalPrice, onSuccess }) {
     setProcessing(true);
     setError(null);
 
-    const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
+    const { error: stripeError } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
     });
@@ -30,12 +31,11 @@ function PaymentForm({ totalPrice, onSuccess }) {
       return;
     }
 
-    // TODO: Send paymentMethod to your backend to create PaymentIntent
-    // For now, we simulate success
+    // Simulate successful payment for testing
     setTimeout(() => {
       onSuccess();
       setProcessing(false);
-    }, 1800);
+    }, 1500);
   };
 
   return (
@@ -59,9 +59,9 @@ function PaymentForm({ totalPrice, onSuccess }) {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 transition disabled:opacity-50"
+        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 disabled:opacity-50"
       >
-        {processing ? 'Processing Payment...' : `Pay $${totalPrice} Securely`}
+        {processing ? "Processing Payment..." : `Pay $${totalPrice} Securely`}
       </button>
     </form>
   );
@@ -86,21 +86,13 @@ export default function Checkout() {
     guest_name: '',
     guest_email: '',
     guest_phone: '',
-    special_requests: '',
   });
 
   const updateField = (field, value) => {
     formRef.current[field] = value;
   };
 
-  const handleStep1 = () => {
-    const formData = formRef.current;
-    if (!formData.guest_name.trim() || !formData.guest_email.trim() || !formData.guest_phone.trim()) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-    setStep(2);
-  };
+  const handleStep1 = () => setStep(2);
 
   const handlePaymentSuccess = () => {
     const code = 'RK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -122,7 +114,7 @@ export default function Checkout() {
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-7">
               <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/60 hover:text-white mb-6">
-                <ChevronLeft className="w-5 h-5" /> Back
+                <ChevronLeft className="w-5 h-5" /> Back to Vessel
               </button>
               <h1 className="text-4xl font-display italic text-white mb-10">Guest Information</h1>
               
@@ -141,14 +133,14 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <button onClick={handleStep1} className="mt-10 w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-lg">
+              <button onClick={handleStep1} className="mt-10 w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl">
                 Continue to Payment
               </button>
             </div>
 
             <div className="lg:col-span-5">
               <div className="bg-[#132F38] rounded-3xl p-8 sticky top-8">
-                <h3 className="text-golden-hour/70 mb-4">YOUR BOOKING</h3>
+                <h3 className="text-golden-hour/70 mb-4">BOOKING SUMMARY</h3>
                 <p className="text-2xl font-display text-white">{vesselName}</p>
                 <p className="text-white/70 mt-1">{bookingDate} • {duration}</p>
                 <div className="mt-10 pt-8 border-t border-white/10 flex justify-between text-xl">
