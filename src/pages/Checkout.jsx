@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Check, Anchor, ChevronLeft } from 'lucide-react';
 
-// === YOUR STRIPE KEY (Live key you provided) ===
+// === CHANGE THIS TO YOUR TEST KEY FOR TESTING ===
 const stripePromise = loadStripe('pk_live_LXlUuTi3t8OzNHSwqPMwFRY8001ezahSZw');
 
 function PaymentForm({ totalPrice, onSuccess }) {
@@ -31,7 +31,7 @@ function PaymentForm({ totalPrice, onSuccess }) {
       return;
     }
 
-    // Simulate successful payment for now
+    // Simulate successful payment (for testing)
     setTimeout(() => {
       onSuccess();
       setProcessing(false);
@@ -45,9 +45,9 @@ function PaymentForm({ totalPrice, onSuccess }) {
           options={{
             style: {
               base: {
-                color: '#ffffff',
+                color: '#fff',
                 fontSize: '16px',
-                '::placeholder': { color: '#aaaaaa' },
+                '::placeholder': { color: '#aaa' },
               },
             },
           }}
@@ -59,7 +59,7 @@ function PaymentForm({ totalPrice, onSuccess }) {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 transition disabled:opacity-50"
+        className="w-full py-6 bg-golden-hour text-deep-river font-semibold rounded-2xl text-xl hover:bg-yellow-400 disabled:opacity-50"
       >
         {processing ? 'Processing Payment...' : `Pay $${totalPrice} Securely`}
       </button>
@@ -109,7 +109,6 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-[#0A2229]">
-      {/* Header */}
       <div className="border-b border-white/10 px-8 py-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <Anchor className="w-5 h-5 text-golden-hour" />
@@ -118,7 +117,6 @@ export default function Checkout() {
       </div>
 
       <div className="max-w-5xl mx-auto px-8 py-12">
-        {/* Step 1 - Guest Info */}
         {step === 1 && (
           <div className="grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-7">
@@ -161,7 +159,6 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Step 2 - Payment */}
         {step === 2 && (
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl font-display italic text-white mb-10">Secure Payment</h1>
@@ -171,7 +168,6 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Step 3 - Success */}
         {step === 3 && (
           <div className="text-center py-20">
             <Check className="w-24 h-24 text-golden-hour mx-auto mb-8" />
